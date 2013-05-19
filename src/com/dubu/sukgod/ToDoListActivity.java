@@ -19,9 +19,7 @@ import android.widget.TextView;
 
 import android.widget.Toast;
 import com.dubu.util.ONetworkInfo;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.parse.*;
 
 public class ToDoListActivity extends ListActivity {
     private static final int ACTIVITY_CREATE = 0;
@@ -94,10 +92,16 @@ public class ToDoListActivity extends ListActivity {
         if (!ONetworkInfo.IsWifiAvailable(this) && !ONetworkInfo.Is3GAvailable(this))
         {
             Toast.makeText(this, "네크워크에 연결할 수 없습니다.", Toast.LENGTH_LONG).show();
-
+            return;
         }else if(!ONetworkInfo.IsWifiAvailable(this)){
             Toast.makeText(this, "대용량 데이터가 사용으로 wifi 사용을 권장합니다.", Toast.LENGTH_LONG).show();
         }
+
+        // Save the current Installation to Parse.
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+        PushService.setDefaultPushCallback(this, ToDoListActivity.class);
+        PushService.subscribe(this, "Suk", ToDoListActivity.class);
+        ParseAnalytics.trackAppOpened(getIntent());
 
         mv = (MjpegView) findViewById(R.id.mpeg_view);
         AsyncTask task = new AsyncTask<Object,Object,String>() {
