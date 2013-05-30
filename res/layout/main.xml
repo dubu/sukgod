@@ -4,12 +4,15 @@
     android:layout_height="wrap_content" >
     <view android:layout_width="match_parent"
           android:layout_height="300dp"
-          class="com.dubu.sukgod.MjpegView" android:id="@+id/mpeg_view"/>
+          class="com.dubu.sukgod.MjpegView" android:id="@+id/mpeg_view" android:layout_alignParentLeft="true"
+          android:layout_marginLeft="10dp" android:layout_alignParentTop="true"/>
+
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mpeg_view" android:layout_alignParentLeft="true">
+
         <ListView
                 android:id="@+id/android:list"
                 android:layout_width="wrap_content"
@@ -21,5 +24,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/empty" />
     </LinearLayout>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_write" android:layout_alignParentBottom="true" android:layout_alignParentLeft="false"
+            android:layout_marginBottom="50dp"
+            android:background="@android:drawable/ic_menu_edit" android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"/>
 
 </RelativeLayout>

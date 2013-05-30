@@ -12,12 +12,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import android.widget.Toast;
 import com.dubu.util.ONetworkInfo;
 import com.parse.*;
 
@@ -33,6 +30,9 @@ public class ToDoListActivity extends ListActivity {
 
     private List<ParseObject> todos;
     private Dialog progressDialog;
+
+    private Button btnWrite;
+
 
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
         // Override this method to do custom remote calls
@@ -123,6 +123,15 @@ public class ToDoListActivity extends ListActivity {
 
         new RemoteDataTask().execute();
         registerForContextMenu(getListView());
+
+        btnWrite = (Button) findViewById(R.id.btn_write);
+
+        btnWrite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createTodo();
+            }
+        });
     }
 
     private void createTodo() {
