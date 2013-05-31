@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dubu.sukgod"
-    android:versionCode="4"
-    android:versionName="1.2" >
+    android:versionCode="5"
+    android:versionName="1.3" >
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"/>
 
@@ -25,6 +25,12 @@
         <activity android:name="com.dubu.sukgod.CreateTodo" >
         </activity>
 
+        <activity android:name="com.dubu.sukgod.PhotoActivity" >
+        </activity>
+
+        <activity android:name="com.dubu.sukgod.PhotoViewActivity" >
+        </activity>
+
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver">
             <intent-filter>
@@ -33,7 +39,5 @@
             </intent-filter>
         </receiver>
     </application>
-
-
 
 </manifest>

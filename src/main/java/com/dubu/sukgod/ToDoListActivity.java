@@ -21,9 +21,11 @@ import com.parse.*;
 public class ToDoListActivity extends ListActivity {
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
+    private static final int ACTIVITY_PHOTO = 2;
 
     public static final int INSERT_ID = Menu.FIRST;
     private static final int DELETE_ID = Menu.FIRST + 1;
+    private static final int PHOTO_ID = Menu.FIRST + 2;
 
     private MjpegView mv;
     private final String URL = "http://kozazz.iptime.org:8081/";
@@ -32,6 +34,7 @@ public class ToDoListActivity extends ListActivity {
     private Dialog progressDialog;
 
     private Button btnWrite;
+    private Button btnAlbum;
 
 
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
@@ -125,18 +128,32 @@ public class ToDoListActivity extends ListActivity {
         registerForContextMenu(getListView());
 
         btnWrite = (Button) findViewById(R.id.btn_write);
-
         btnWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createTodo();
             }
         });
+
+        btnAlbum = (Button) findViewById(R.id.btn_album);
+        btnAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createPhoto();
+            }
+        });
+
+
     }
 
     private void createTodo() {
         Intent i = new Intent(this, CreateTodo.class);
         startActivityForResult(i, ACTIVITY_CREATE);
+    }
+
+    private void createPhoto() {
+        Intent i = new Intent(this, PhotoActivity.class);
+        startActivityForResult(i, ACTIVITY_PHOTO);
     }
 
 
@@ -226,6 +243,7 @@ public class ToDoListActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         boolean result = super.onCreateOptionsMenu(menu);
         menu.add(0, INSERT_ID, 0, R.string.menu_insert);
+        menu.add(0, PHOTO_ID, 0, R.string.menu_photo);
         return result;
     }
 
@@ -264,6 +282,9 @@ public class ToDoListActivity extends ListActivity {
         switch (item.getItemId()) {
             case INSERT_ID:
                 createTodo();
+                return true;
+            case PHOTO_ID:
+                createPhoto();
                 return true;
         }
 

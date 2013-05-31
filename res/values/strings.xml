@@ -3,6 +3,7 @@
     <string name="app_name">쑥갓키우기</string>
     <string name="empty">There are no items.</string>
     <string name="menu_insert">글쓰기</string>
+    <string name="menu_photo">사진첩</string>
     <string name="name">한마디 남겨주세요</string>
     <string name="confirm">Done</string>
     <string name="create_todo">Create Message</string>
