@@ -1,7 +1,10 @@
 package com.dubu.sukgod;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
@@ -17,6 +20,15 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.dubu.util.ONetworkInfo;
 import com.parse.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 public class ToDoListActivity extends ListActivity {
     private static final int ACTIVITY_CREATE = 0;
@@ -30,12 +42,16 @@ public class ToDoListActivity extends ListActivity {
     private MjpegView mv;
     private final String URL = "http://kozazz.iptime.org:8081/";
 
+    private final String LED_URL = "http://kozazz.iptime.org/";
+
     private List<ParseObject> todos;
     private Dialog progressDialog;
 
     private Button btnWrite;
     private Button btnAlbum;
+    private ToggleButton btnLight;
 
+    private boolean isChecked ;
 
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
         // Override this method to do custom remote calls
@@ -84,6 +100,8 @@ public class ToDoListActivity extends ListActivity {
         }
     }
 
+
+
     /**
      * Called when the activity is first created.
      */
@@ -127,6 +145,43 @@ public class ToDoListActivity extends ListActivity {
         new RemoteDataTask().execute();
         registerForContextMenu(getListView());
 
+        new AsyncTask<Object,Object,String>() {
+            @Override
+            protected String doInBackground(Object... params) {
+                try {
+                    DefaultHttpClient client = new DefaultHttpClient();
+                    HttpGet request = new HttpGet(LED_URL+"/led/read");
+                    HttpResponse response = null;
+                    try {
+                        response = client.execute(request);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (response != null) {
+                        HttpEntity entity = response.getEntity();
+
+                        String rsVal =  EntityUtils.toString(entity);
+                        if("on".equals(rsVal)){
+                            isChecked = true;
+                        }else{
+                            isChecked = false;
+                        }
+
+                        if(isChecked){
+                            btnLight.setChecked(true);
+                            btnLight.setText(btnLight.getTextOn());
+                        }else{
+                            btnLight.setChecked(false);
+                            btnLight.setText(btnLight.getTextOff());
+                        }
+
+                    }
+                } catch (Exception e) {
+                }
+                return null;
+            }
+        }.execute();
+
         btnWrite = (Button) findViewById(R.id.btn_write);
         btnWrite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +198,72 @@ public class ToDoListActivity extends ListActivity {
             }
         });
 
+        btnLight = (ToggleButton )findViewById(R.id.btn_light);
 
+        btnLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(btnLight.isChecked()){
+                    sendLightOn();
+                }else{
+                    sendLightOff();
+                }
+            }
+        });
+    }
+
+    private String sendLightOn(){
+        new AsyncTask<Object, Object, String>() {
+            @Override
+            protected String doInBackground(Object... params) {
+                try {
+                    DefaultHttpClient client = new DefaultHttpClient();
+                    HttpGet request = new HttpGet(LED_URL + "/led/on");
+                    HttpResponse response = null;
+                    try {
+                        response = client.execute(request);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (response != null) {
+                        HttpEntity entity = response.getEntity();
+
+                        String rsVal = EntityUtils.toString(entity);
+                        return rsVal;
+                    }
+                } catch (Exception e) {
+                }
+                return null;
+            }
+        }.execute();
+        return null;
+    }
+
+    private String sendLightOff(){
+        new AsyncTask<Object, Object, String>() {
+            @Override
+            protected String doInBackground(Object... params) {
+                try {
+                    DefaultHttpClient client = new DefaultHttpClient();
+                    HttpGet request = new HttpGet(LED_URL + "/led/off");
+                    HttpResponse response = null;
+                    try {
+                        response = client.execute(request);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (response != null) {
+                        HttpEntity entity = response.getEntity();
+
+                        String rsVal = EntityUtils.toString(entity);
+                        return rsVal;
+                    }
+                } catch (Exception e) {
+                }
+                return null;
+            }
+        }.execute();
+        return null;
     }
 
     private void createTodo() {

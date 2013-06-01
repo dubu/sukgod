@@ -11,7 +11,7 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mpeg_view" android:layout_alignParentLeft="true">
+            android:layout_below="@+id/mpeg_view" android:layout_alignParentLeft="true" android:id="@+id/linearLayout">
 
         <ListView
                 android:id="@+id/android:list"
@@ -39,5 +39,10 @@
             android:layout_alignParentTop="false"
             android:layout_alignTop="@+id/btn_write"
             android:background="@android:drawable/ic_menu_gallery" android:layout_alignParentRight="true"/>
+    <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_light" android:layout_alignLeft="@+id/linearLayout"
+            android:layout_alignTop="@+id/mpeg_view" android:checked="false"/>
 
 </RelativeLayout>
