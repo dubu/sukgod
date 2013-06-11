@@ -342,6 +342,9 @@ public class ToDoListActivity extends ListActivity {
                 }.execute();
                 break;
         }
+
+
+
         mv.init(this);
         AsyncTask task = new AsyncTask<Object,Object,String>() {
             @Override
@@ -355,8 +358,6 @@ public class ToDoListActivity extends ListActivity {
         }.execute();
         mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
         mv.showFps(false);
-
-
     }
 
     @Override
