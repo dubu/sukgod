@@ -5,6 +5,8 @@ import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Dialog;
@@ -50,6 +52,9 @@ public class ToDoListActivity extends ListActivity {
     private Button btnWrite;
     private Button btnAlbum;
     private ToggleButton btnLight;
+
+
+
 
     private boolean isChecked ;
 
@@ -143,6 +148,49 @@ public class ToDoListActivity extends ListActivity {
         empty.setVisibility(View.INVISIBLE);
 
         new RemoteDataTask().execute();
+
+        // check new photo shop
+
+        new AsyncTask<Object,Object,String>() {
+            ParseObject obj;
+            @Override
+            protected String doInBackground(Object... params) {
+
+                ParseQuery query = new ParseQuery("Diary");
+                query.orderByDescending("_updated_at");
+
+                try {
+                    obj = query.getFirst();
+
+                } catch (ParseException e) {
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                if(obj != null){
+
+                    Date lastedDate = obj.getUpdatedAt();
+                    Date now = new Date();
+
+                    Calendar startCal = Calendar.getInstance();
+                    Calendar endCal = Calendar.getInstance();
+
+                    startCal.setTime(lastedDate);
+                    endCal.setTime(now);
+
+                    long diffMillis = endCal.getTimeInMillis() -  startCal.getTimeInMillis();
+                    int diff =  (int)(diffMillis/(24*60*60*1000));
+                    if(diff < 2){
+                        btnAlbum.setText("N");
+                    }
+                    //ToDoListActivity.this.progressDialog.dismiss();
+                }
+            }
+        }.execute();
+
+
         registerForContextMenu(getListView());
 
         new AsyncTask<Object,Object,String>() {
@@ -210,6 +258,9 @@ public class ToDoListActivity extends ListActivity {
                 }
             }
         });
+
+
+
     }
 
     private String sendLightOn(){
