@@ -95,7 +95,7 @@ public class ToDoListActivity extends ListActivity {
                     R.layout.todo_row);
             for (ParseObject todo : todos) {
                 DateFormat sdFormat = new SimpleDateFormat("MMdd");
-                String tempDate = sdFormat.format(todo.getUpdatedAt());
+                String tempDate = sdFormat.format(todo.getCreatedAt());
                 adapter.add(tempDate+(String) todo.get("name"));
             }
             setListAdapter(adapter);
@@ -364,7 +364,8 @@ public class ToDoListActivity extends ListActivity {
                     protected Void doInBackground(Void... params) {
                         String name = extras.getString("name");
                         ParseObject todo = new ParseObject("Todo");
-                        todo.put("name", name);
+                        String id = ParseInstallation.getCurrentInstallation().getInstallationId().substring(0,2);
+                        todo.put("name", "["+id+"]"+name);
                         try {
                             todo.save();
                         } catch (ParseException e) {
