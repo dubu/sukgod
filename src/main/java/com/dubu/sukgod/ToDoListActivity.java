@@ -182,7 +182,7 @@ public class ToDoListActivity extends ListActivity {
 
                     long diffMillis = endCal.getTimeInMillis() -  startCal.getTimeInMillis();
                     int diff =  (int)(diffMillis/(24*60*60*1000));
-                    if(diff < 2){
+                    if(diff < 1){
                         btnAlbum.setText("N");
                     }
                     //ToDoListActivity.this.progressDialog.dismiss();

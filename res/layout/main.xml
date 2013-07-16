@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" android:id="@+id/img_light">
     <view android:layout_width="match_parent"
           android:layout_height="300dp"
           class="com.dubu.sukgod.MjpegView" android:id="@+id/mpeg_view" android:layout_alignParentLeft="true"
@@ -26,31 +26,26 @@
     </LinearLayout>
 
     <Button
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:id="@+id/btn_write" android:layout_alignParentBottom="true" android:layout_alignParentLeft="false"
-            android:layout_marginBottom="50dp"
-            android:background="@android:drawable/ic_menu_edit" android:layout_alignParentRight="true"
-            />
+            android:background="@drawable/btnpen" android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp" android:layout_marginBottom="50dp"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_album" android:layout_alignParentLeft="false"
             android:layout_alignParentTop="false"
             android:layout_alignTop="@+id/btn_write"
-            android:background="@android:drawable/ic_menu_gallery" android:layout_alignParentRight="true"
+            android:background="@drawable/btncamera" android:layout_alignParentRight="true"
             android:textColor="#ffe932" android:textStyle="bold|normal"/>
     <ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_light" android:layout_alignLeft="@+id/linearLayout"
-            android:layout_alignTop="@+id/mpeg_view" android:checked="false"/>
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/img_light" android:layout_alignParentLeft="false"
-            android:layout_alignParentTop="false" android:src="@drawable/lighttext"
-            android:layout_below="@+id/btn_light" android:layout_alignLeft="@+id/btn_light"
-            android:layout_marginLeft="20dp" android:layout_marginTop="-20dp"/>
+            android:layout_alignTop="@+id/mpeg_view" android:checked="true"
+            android:textColor="@android:color/background_dark"
+            android:clickable="false" android:background="@drawable/btnlight" android:textOn=" " android:textOff=" "
+            android:singleLine="false"/>
 
 </RelativeLayout>
