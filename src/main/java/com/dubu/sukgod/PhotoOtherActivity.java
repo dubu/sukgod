@@ -13,7 +13,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +32,7 @@ import java.util.List;
  * Time: 오후 2:01
  */
 public class PhotoOtherActivity extends ListActivity {
+    private static final int DELETE_ID = Menu.FIRST ;
     private static int RESULT_LOAD_IMAGE = 1;
     public Dialog progressDialog;
     private Activity activity;
@@ -64,6 +69,36 @@ public class PhotoOtherActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, DELETE_ID, 0, R.string.menu_delete_photo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case DELETE_ID:
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+                // Delete the remote object
+                final ParseObject todo = todos.get(info.position);
+
+                new RemoteDataTask() {
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            todo.delete();
+                        } catch (ParseException e) {
+                        }
+                        super.doInBackground();
+                        return null;
+                    }
+                }.execute();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -147,6 +182,16 @@ public class PhotoOtherActivity extends ListActivity {
         new AsyncTask<Object, Object, String>() {
             List<ParseObject> photos;
 
+
+            @Override
+            protected void onPreExecute() {
+
+                PhotoOtherActivity.this.progressDialog = ProgressDialog.show(PhotoOtherActivity.this, "",
+                        "Upload...", true);
+
+                super.onPreExecute();
+            }
+
             @Override
             protected String doInBackground(Object... params) {
 
@@ -155,16 +200,9 @@ public class PhotoOtherActivity extends ListActivity {
                 ParseFile file = new ParseFile("photo.png", data);
                 parseObject.put("img", file);
 
-                ProgressCallback progressCallback = new ProgressCallback() {
-                    @Override
-                    public void done(Integer integer) {
-                        Toast toast = Toast.makeText(getApplicationContext(), "uploading...", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                };
-
                 parseObject.saveInBackground(new SaveCallback() {
                     public void done(ParseException e) {
+                        PhotoOtherActivity.this.progressDialog.dismiss();;
                         if (e == null) {
                             new RemoteDataTask().execute();
                         } else {

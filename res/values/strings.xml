@@ -9,4 +9,5 @@
     <string name="confirm">Done</string>
     <string name="create_todo">Create Message</string>
     <string name="menu_delete">Delete Message</string>
+    <string name="menu_delete_photo">Delete Photo</string>
 </resources>
