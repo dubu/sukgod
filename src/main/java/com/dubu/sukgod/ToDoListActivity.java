@@ -36,6 +36,8 @@ public class ToDoListActivity extends ListActivity {
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
     private static final int ACTIVITY_PHOTO = 2;
+    private static final int ACTIVITY_OTHER = 3;
+
 
     public static final int INSERT_ID = Menu.FIRST;
     private static final int DELETE_ID = Menu.FIRST + 1;
@@ -43,19 +45,13 @@ public class ToDoListActivity extends ListActivity {
 
     private MjpegView mv;
     private final String URL = "http://kozazz.iptime.org:8081/";
-
     private final String LED_URL = "http://kozazz.iptime.org/";
-
     private List<ParseObject> todos;
     private Dialog progressDialog;
-
     private Button btnWrite;
     private Button btnAlbum;
+    private Button btnOther;
     private ToggleButton btnLight;
-
-
-
-
     private boolean isChecked ;
 
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
@@ -190,6 +186,45 @@ public class ToDoListActivity extends ListActivity {
             }
         }.execute();
 
+        new AsyncTask<Object,Object,String>() {
+            ParseObject obj;
+            @Override
+            protected String doInBackground(Object... params) {
+
+                ParseQuery query = new ParseQuery("Other");
+                query.orderByDescending("_updated_at");
+
+                try {
+                    obj = query.getFirst();
+
+                } catch (ParseException e) {
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                if(obj != null){
+
+                    Date lastedDate = obj.getUpdatedAt();
+                    Date now = new Date();
+
+                    Calendar startCal = Calendar.getInstance();
+                    Calendar endCal = Calendar.getInstance();
+
+                    startCal.setTime(lastedDate);
+                    endCal.setTime(now);
+
+                    long diffMillis = endCal.getTimeInMillis() -  startCal.getTimeInMillis();
+                    int diff =  (int)(diffMillis/(24*60*60*1000));
+                    if(diff < 1){
+                        btnOther.setText("N");
+                    }
+                    //ToDoListActivity.this.progressDialog.dismiss();
+                }
+            }
+        }.execute();
+
 
         registerForContextMenu(getListView());
 
@@ -246,8 +281,15 @@ public class ToDoListActivity extends ListActivity {
             }
         });
 
-        btnLight = (ToggleButton )findViewById(R.id.btn_light);
+        btnOther = (Button) findViewById(R.id.btn_other);
+        btnOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createOther();
+            }
+        });
 
+        btnLight = (ToggleButton )findViewById(R.id.btn_light);
         btnLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,9 +300,6 @@ public class ToDoListActivity extends ListActivity {
                 }
             }
         });
-
-
-
     }
 
     private String sendLightOn(){
@@ -326,6 +365,12 @@ public class ToDoListActivity extends ListActivity {
         Intent i = new Intent(this, PhotoActivity.class);
         startActivityForResult(i, ACTIVITY_PHOTO);
     }
+
+    private void createOther() {
+        Intent i = new Intent(this, PhotoOtherActivity.class);
+        startActivityForResult(i, ACTIVITY_OTHER);
+    }
+
 
 
     @Override
