@@ -126,18 +126,18 @@ public class ToDoListActivity extends ListActivity {
         ParseAnalytics.trackAppOpened(getIntent());
 
         mv = (MjpegView) findViewById(R.id.mpeg_view);
-        AsyncTask task = new AsyncTask<Object,Object,String>() {
-            @Override
-            protected String doInBackground(Object... params) {
-                try {
-                    mv.setSource(MjpegInputStream.read(URL));
-                } catch (Exception e) {
-                }
-                return null;
-            }
-        }.execute();
-        mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
-        mv.showFps(false);
+//        AsyncTask task = new AsyncTask<Object,Object,String>() {
+//            @Override
+//            protected String doInBackground(Object... params) {
+//                try {
+//                    mv.setSource(MjpegInputStream.read(URL));
+//                } catch (Exception e) {
+//                }
+//                return null;
+//            }
+//        }.execute();
+//        mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
+//        mv.showFps(false);
 
 
         TextView empty = (TextView) findViewById(android.R.id.empty);
@@ -379,16 +379,16 @@ public class ToDoListActivity extends ListActivity {
 
         mv.init(this);
 
-        AsyncTask task = new AsyncTask<Object,Object,String>() {
-            @Override
-            protected String doInBackground(Object... params) {
-                try {
-                    mv.setSource(MjpegInputStream.read(URL));
-                } catch (Exception e) {
-                }
-                return null;
-            }
-        }.execute();
+//        AsyncTask task = new AsyncTask<Object,Object,String>() {
+//            @Override
+//            protected String doInBackground(Object... params) {
+//                try {
+//                    mv.setSource(MjpegInputStream.read(URL));
+//                } catch (Exception e) {
+//                }
+//                return null;
+//            }
+//        }.execute();
         mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
         mv.showFps(false);
 
