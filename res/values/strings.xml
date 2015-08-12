@@ -10,4 +10,8 @@
     <string name="create_todo">Create Message</string>
     <string name="menu_delete">Delete Message</string>
     <string name="menu_delete_photo">Delete Photo</string>
+
+    <string name="kakao_app_key">5112fc096749037352b073cd8816ad87</string>
+    <string name="kakao_scheme">kakao5112fc096749037352b073cd8816ad87</string>
+    <string name="kakaolink_host">kakaolink</string>
 </resources>
