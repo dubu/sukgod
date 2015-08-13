@@ -11,7 +11,7 @@
     <string name="menu_delete">Delete Message</string>
     <string name="menu_delete_photo">Delete Photo</string>
 
-    <string name="kakao_app_key">5112fc096749037352b073cd8816ad87</string>
-    <string name="kakao_scheme">kakao5112fc096749037352b073cd8816ad87</string>
+    <string name="kakao_app_key">05668aa794d0c970e0fdc8a13f4763d4</string>
+    <string name="kakao_scheme">kakao05668aa794d0c970e0fdc8a13f4763d4</string>
     <string name="kakaolink_host">kakaolink</string>
 </resources>
